@@ -1,46 +1,43 @@
-import moment from 'moment'
-import dayjs from 'dayjs'
+import moment from 'moment';
+import dayjs from 'dayjs';
 
-import {currentTimezone as cTimezone} from './timezones'
+import { currentTimezone as cTimezone } from './timezones';
 
-export const currentTimezone = cTimezone
+export const currentTimezone = cTimezone;
 export const shiftDateToTimezone = (date, toTimezone, fromTimezone) => {
   if (!date) {
-    return
+    return;
   }
-  fromTimezone = fromTimezone || currentTimezone
-  return dayjs(date.toString())
-    .tz(fromTimezone)
-    .tz(toTimezone, true)
-    .toDate()
-}
+  fromTimezone = fromTimezone || currentTimezone;
+  return dayjs(date.toString()).tz(fromTimezone).tz(toTimezone, true).toDate();
+};
 
 export const formatDatetime = (datetime, format) => {
-  return datetime ? moment(datetime).format(format) : ''
-}
+  return datetime ? moment(datetime).format(format) : '';
+};
 
 export const formatDateFullUS = (datetime, showTZ, timezone) => {
-  timezone = timezone || currentTimezone
+  timezone = timezone || currentTimezone;
   if (showTZ) {
-    datetime = shiftDateToTimezone(datetime, currentTimezone, timezone)
-    return `${formatDatetime(datetime, 'MMM Do YYYY h:mma')} ${timezone}`
+    datetime = shiftDateToTimezone(datetime, currentTimezone, timezone);
+    return `${formatDatetime(datetime, 'MMM Do YYYY h:mma')} ${timezone}`;
   }
-  return formatDatetime(datetime, 'MMM Do YYYY h:mma')
-}
+  return formatDatetime(datetime, 'MMM Do YYYY h:mma');
+};
 
-export const generateId = len => {
-  const arr = new Uint8Array((len || 40) / 2)
-  let {crypto} = window
+export const generateId = (len) => {
+  const arr = new Uint8Array((len || 40) / 2);
+  let { crypto } = window;
   if (!window.crypto) {
-    crypto = window.msCrypto
+    crypto = window.msCrypto;
   }
   // IE 10 doesn't have window.crypto and window.msCrypto
   if (!crypto) {
     for (let i = 0; i < arr.length; i++) {
-      arr[i] = Math.floor(Math.random() * 256)
+      arr[i] = Math.floor(Math.random() * 256);
     }
   } else {
-    crypto.getRandomValues(arr)
+    crypto.getRandomValues(arr);
   }
-  return [].map.call(arr, n => n.toString(16)).join('')
-}
+  return [].map.call(arr, (n) => n.toString(16)).join('');
+};

@@ -1,18 +1,16 @@
-import * as I from 'immutable'
-import React, {useEffect, useRef} from 'react'
-import PropTypes from 'prop-types'
-import _ from 'lodash'
-import DropdownList from 'react-widgets/DropdownList'
+import * as I from 'immutable';
+import React, { useEffect, useRef } from 'react';
+import PropTypes from 'prop-types';
+import _ from 'lodash';
+import DropdownList from 'react-widgets/DropdownList';
 
-import PlainButton from '../plain-button'
+import PlainButton from '../plain-button';
+import MDIcon from '../iconify';
 
-import {formatDateFullUS} from '../../../helpers/helpers'
+import { formatDateFullUS } from '../../../helpers/helpers';
 
-// todo use iconify instead
-import Icon from '../icon'
-
-import {SPEED, SPEED_DATA} from '../code-playback-player/constants'
-import Timeline from './timeline'
+import { SPEED, SPEED_DATA } from '../code-playback-player/constants';
+import Timeline from './timeline';
 
 const CodePlaybackMultiFileNavBar = ({
   positions,
@@ -25,81 +23,94 @@ const CodePlaybackMultiFileNavBar = ({
   onSpeedChange,
   onPlayPause,
 }) => {
-  const timelineRef = useRef(null)
+  const timelineRef = useRef(null);
 
   useEffect(() => {
-    timelineRef.current.setCustomTime(positions.get(step).date, 'positionMarker', true)
-  }, [step])
+    timelineRef.current.setCustomTime(
+      positions.get(step).date,
+      'positionMarker',
+      true
+    );
+  }, [step]);
 
   const getModifiedBy = () => {
-    const modifiedBy = stepMetadata && stepMetadata.modifiedBy ? stepMetadata.modifiedBy : null
-    return modifiedBy === 'internal#reload' ? 'System - File Created' : modifiedBy
-  }
+    const modifiedBy =
+      stepMetadata && stepMetadata.modifiedBy ? stepMetadata.modifiedBy : null;
+    return modifiedBy === 'internal#reload'
+      ? 'System - File Created'
+      : modifiedBy;
+  };
 
   return (
-    <div className='CodePlaybackMultiFileNavBar codePlaybackTimeline'>
+    <div className="CodePlaybackMultiFileNavBar codePlaybackTimeline">
       <Timeline
         ref={timelineRef}
         cases={cases}
         positions={positions}
         onProgressChange={onProgressChange}
       />
-      <div className='codePlaybackTimeline-navBar'>
-        <div className='codePlaybackTimeline-playback-controls'>
+      <div className="codePlaybackTimeline-navBar">
+        <div className="codePlaybackTimeline-playback-controls">
           <PlainButton
-            className='codePlaybackTimeline-button'
+            className="codePlaybackTimeline-button"
             onClick={() => onProgressChange(step - 1)}
-            title='Previous change'
-            aria-label='Previous change'
+            title="Previous change"
+            aria-label="Previous change"
             disabled={isPlaying || step <= 0}
           >
-            <Icon name='skipback' />
+            <MDIcon icon="mdi:skip-backward" />
           </PlainButton>
           <PlainButton
-            className='codePlaybackTimeline-button'
+            className="codePlaybackTimeline-button"
             onClick={onPlayPause}
-            title='Play/Pause'
-            aria-label='Play/Pause'
+            title="Play/Pause"
+            aria-label="Play/Pause"
           >
-            <Icon name={isPlaying ? 'pause' : 'play'} />
+            {isPlaying ? (
+              <MDIcon icon="mdi:pause" />
+            ) : (
+              <MDIcon icon="mdi:play" />
+            )}
           </PlainButton>
           <PlainButton
-            className='codePlaybackTimeline-button'
+            className="codePlaybackTimeline-button"
             onClick={() => onProgressChange(step + 1)}
-            title='Next change'
-            aria-label='Next change'
+            title="Next change"
+            aria-label="Next change"
             disabled={isPlaying || step >= positions.size - 1}
           >
-            <Icon name='skipforward' />
+            <MDIcon icon="mdi:skip-forward" />
           </PlainButton>
         </div>
-        <div className='codePlaybackTimeline-metadata'>
-          <div className='codePlaybackTimeline-time'>
-            {stepMetadata && stepMetadata.date ? formatDateFullUS(stepMetadata.date, true) : null}
+        <div className="codePlaybackTimeline-metadata">
+          <div className="codePlaybackTimeline-time">
+            {stepMetadata && stepMetadata.date
+              ? formatDateFullUS(stepMetadata.date, true)
+              : null}
           </div>
-          <div className='codePlaybackTimeline-username'>
+          <div className="codePlaybackTimeline-username">
             <strong>Modified by:</strong>
             &nbsp;{getModifiedBy()}
           </div>
         </div>
-        <div className='codePlaybackTimeline-speed-container'>
+        <div className="codePlaybackTimeline-speed-container">
           <strong>Speed:</strong>
           <DropdownList
-            className='codePlaybackTimeline-speed'
-            onChange={value => onSpeedChange(value.value)}
+            className="codePlaybackTimeline-speed"
+            onChange={(value) => onSpeedChange(value.value)}
             data={SPEED_DATA}
-            dataKey='value'
-            textField='name'
+            dataKey="value"
+            textField="name"
             value={speed}
-            title='Play speed'
-            aria-label='Play speed'
+            title="Play speed"
+            aria-label="Play speed"
             dropUp={true}
           />
         </div>
       </div>
     </div>
-  )
-}
+  );
+};
 
 CodePlaybackMultiFileNavBar.propTypes = {
   cases: PropTypes.instanceOf(I.List),
@@ -107,14 +118,14 @@ CodePlaybackMultiFileNavBar.propTypes = {
   step: PropTypes.number,
   stepMetadata: PropTypes.shape({
     date: PropTypes.instanceOf(Date),
-    modifiedBy: PropTypes.string
+    modifiedBy: PropTypes.string,
   }),
   speed: PropTypes.oneOf(_.values(SPEED)),
   isPlaying: PropTypes.bool,
   onProgressChange: PropTypes.func,
   onSpeedChange: PropTypes.func,
-  onPlayPause: PropTypes.func
-}
+  onPlayPause: PropTypes.func,
+};
 
 CodePlaybackMultiFileNavBar.defaultProps = {
   cases: I.List(),
@@ -124,7 +135,7 @@ CodePlaybackMultiFileNavBar.defaultProps = {
   isPlaying: false,
   onProgressChange: () => {},
   onSpeedChange: () => {},
-  onPlayPause: () => {}
-}
+  onPlayPause: () => {},
+};
 
-export default CodePlaybackMultiFileNavBar
+export default CodePlaybackMultiFileNavBar;
