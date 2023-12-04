@@ -8,7 +8,9 @@
     "test": "echo \"Error: no test specified\" && exit 1",
     "check": "prettier --check src/**/*.js",
     "format": "prettier --write src/**/*.js",
-    "lint": "eslint --ext src/**/*.js"
+    "lint": "eslint --ext src/**/*.js",
+    "lint:write": "eslint --ext src/**/*.js --fix-dry-run",
+    "prepare": "husky install"
   },
   "devDependencies": {
     "@babel/core": "^7.23.5",
@@ -36,7 +38,8 @@
     "style-loader": "^3.3.3",
     "webpack": "^5.89.0",
     "webpack-cli": "^5.1.4",
-    "webpack-dev-server": "^4.15.1"
+    "webpack-dev-server": "^4.15.1",
+    "husky": "^8.0.0"
   },
   "dependencies": {
     "@iconify-icon/react": "^1.0.8",
