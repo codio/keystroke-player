@@ -5,9 +5,6 @@ import DiffMatchPatch from 'diff-match-patch';
 
 import OtText from './shareman/ot-text';
 
-// import CodePlaybackStore from '../../../stores/code-playback-store';
-const CodePlaybackStore = {};
-
 class FileTimeline {
   static State = I.Record({
     needPreload: false,
@@ -132,11 +129,12 @@ class ChangePlayer {
     metadata: null,
   });
 
-  constructor(projectId, fileName, speed = 5) {
+  constructor(fileName, modelData, speed = 5) {
     this.dmp = new DiffMatchPatch();
-    this.projectId = projectId;
+    this.modelData = modelData;
     this.filename = fileName;
     this.speed = speed;
+    this.init();
   }
 
   _onLoadFileStateComplete(fileState, offset) {
@@ -170,53 +168,22 @@ class ChangePlayer {
     return logs.size;
   }
 
-  _loadFileState(offset) {
-    return CodePlaybackStore.loadFileState(
-      this.projectId,
-      this.filename,
-      offset
-    ).then((fileState) => {
-      return this._onLoadFileStateComplete(fileState, offset);
-    });
-  }
-
-  _loadAllStates() {
-    const chunksP = [];
-    const chunksLength = Math.floor(
-      this.fileTimeline.endPosition / this.fileTimeline.step
+  init() {
+    const { initialState, state } = this.modelData;
+    this.metadataState = initialState;
+    this.fileTimeline = new FileTimeline(
+      this.metadataState.startVersion,
+      this.metadataState.endVersion,
+      this.metadataState.step,
+      this.metadataState.startContent,
+      this.speed
     );
-    for (let i = 0; i < chunksLength + 1; i++) {
-      chunksP.push(this._loadFileState(i));
-    }
-    return Promise.all(chunksP);
-  }
 
-  init(loadAll) {
-    return CodePlaybackStore.loadFileInitialState(
-      this.projectId,
-      this.filename
-    ).then((state) => {
-      this.metadataState = state;
-      this.fileTimeline = new FileTimeline(
-        state.startVersion,
-        state.endVersion,
-        state.step,
-        state.startContent,
-        this.speed
-      );
-      this.loadingFramePromise = loadAll
-        ? this._loadAllStates()
-        : this._loadFileState(0);
-      return this.loadingFramePromise
-        .then(() => {
-          return new ChangePlayer.InitialStateInfo({
-            min: this.fileTimeline.startPosition,
-            max: this.fileTimeline.endPosition,
-          });
-        })
-        .finally(() => {
-          this.loadingFramePromise = null;
-        });
+    this._onLoadFileStateComplete(state, 0);
+
+    return new ChangePlayer.InitialStateInfo({
+      min: this.fileTimeline.startPosition,
+      max: this.fileTimeline.endPosition,
     });
   }
 
@@ -234,32 +201,22 @@ class ChangePlayer {
         : this.fileTimeline.currentPosition;
       const prev = this.fileTimeline.positionInformation(position - 1);
       const current = this.fileTimeline.moveToPosition(position);
-      if (_.isString(current)) {
-        const info = this.fileTimeline.positionInformation(position);
-        const { content, decorators, positionInfo } = this._getContentDetails(
-          current,
-          prev
-        );
-        resolve(
-          new ChangePlayer.PositionData({
-            content,
-            decorators,
-            positionInfo,
-            metadata: new ChangePlayer.PositionMetadata({
-              modifiedBy: info.modifiedBy,
-              date: info.modified,
-            }),
-          })
-        );
-      } else {
-        const { nextFrame } = this.fileTimeline.timelineState();
-        if (!this.loadingFramePromise) {
-          this.loadingFramePromise = this._loadFileState(nextFrame);
-        }
-        this.loadingFramePromise
-          .then(() => this.getDataForPosition(position))
-          .then((data) => resolve(data));
-      }
+      const info = this.fileTimeline.positionInformation(position);
+      const { content, decorators, positionInfo } = this._getContentDetails(
+        current,
+        prev
+      );
+      resolve(
+        new ChangePlayer.PositionData({
+          content,
+          decorators,
+          positionInfo,
+          metadata: new ChangePlayer.PositionMetadata({
+            modifiedBy: info.modifiedBy,
+            date: info.modified,
+          }),
+        })
+      );
     });
   }
 

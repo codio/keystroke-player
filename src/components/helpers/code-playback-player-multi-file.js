@@ -21,9 +21,9 @@ const CodePlaybackPlayerMultiFile = ({ modelsData, cases, className }) => {
   const [playerModel, setPlayerModel] = useState(null);
   const [positions, setPositions] = useState(null);
 
-  useEffect(async () => {
+  useEffect(() => {
     const multiFileModel = new MultiFileModel(modelsData, { speed });
-    const models = await multiFileModel.getAllModels();
+    const models = multiFileModel.getAllModels();
     const calculatedPositions = buildPositions(models);
     setPlayerModel(multiFileModel);
     setPositions(calculatedPositions);
