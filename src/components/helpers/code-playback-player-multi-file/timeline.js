@@ -24,7 +24,7 @@ const groups = [
 const getTimelineItem = (id, group, content, start, end, title) => {
   return {
     id: id || generateId(8),
-    group: group,
+    group,
     content,
     start: new Date(start),
     end: end ? new Date(end) : undefined,
@@ -182,6 +182,9 @@ Timeline.propTypes = {
 
 Timeline.defaultProps = {
   onProgressChange: () => {},
+  cases: null,
 };
+
+Timeline.displayName = 'Timeline';
 
 export default Timeline;

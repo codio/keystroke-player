@@ -5,9 +5,9 @@ import Slider from 'rc-slider';
 import DropdownList from 'react-widgets/DropdownList';
 
 import PlainButton from '../plain-button';
+import MDIcon from '../iconify';
 
-import { formatDateFullUS } from '../../../helpers/tools';
-import Icon from '../icon';
+import { formatDateFullUS } from '../../../helpers/helpers';
 import { SPEED, SPEED_DATA } from './constants';
 
 const CodePlaybackTimeline = ({
@@ -47,7 +47,7 @@ const CodePlaybackTimeline = ({
             aria-label="Previous change"
             disabled={isPlaying || step <= min}
           >
-            <Icon name="skipback" />
+            <MDIcon icon="mdi:skip-backward" />
           </PlainButton>
           <PlainButton
             className="codePlaybackTimeline-button"
@@ -55,7 +55,11 @@ const CodePlaybackTimeline = ({
             title="Play/Pause"
             aria-label="Play/Pause"
           >
-            <Icon name={isPlaying ? 'pause' : 'play'} />
+            {isPlaying ? (
+              <MDIcon icon="mdi:pause" />
+            ) : (
+              <MDIcon icon="mdi:play" />
+            )}
           </PlainButton>
           <PlainButton
             className="codePlaybackTimeline-button"
@@ -64,7 +68,7 @@ const CodePlaybackTimeline = ({
             aria-label="Next change"
             disabled={isPlaying || step >= max}
           >
-            <Icon name="skipforward" />
+            <MDIcon icon="mdi:skip-forward" />
           </PlainButton>
         </div>
         <div className="codePlaybackTimeline-metadata">

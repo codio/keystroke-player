@@ -22,21 +22,15 @@ const CodePlaybackPlayerMultiFile = ({ modelsData, cases, className }) => {
   const [positions, setPositions] = useState(null);
 
   useEffect(async () => {
-    const playerModel = new MultiFileModel(modelsData, { speed });
-    const models = await playerModel.getAllModels();
-    const positions = buildPositions(models);
-    setPlayerModel(playerModel);
-    setPositions(positions);
+    const multiFileModel = new MultiFileModel(modelsData, { speed });
+    const models = await multiFileModel.getAllModels();
+    const calculatedPositions = buildPositions(models);
+    setPlayerModel(multiFileModel);
+    setPositions(calculatedPositions);
   }, [modelsData]);
 
-  useEffect(() => {
-    if (positions) {
-      updateContent(step);
-    }
-  }, [positions, step]);
-
-  const updateContent = async (step) => {
-    const { fileName, position } = positions.get(step);
+  const updateContent = async (newStep) => {
+    const { fileName, position } = positions.get(newStep);
     try {
       const positionData = await playerModel.getDataForPosition(
         fileName,
@@ -62,6 +56,12 @@ const CodePlaybackPlayerMultiFile = ({ modelsData, cases, className }) => {
       }
     } catch {}
   };
+
+  useEffect(() => {
+    if (positions) {
+      updateContent(step);
+    }
+  }, [positions, step]);
 
   useInterval(
     async () => {
@@ -122,6 +122,11 @@ CodePlaybackPlayerMultiFile.propTypes = {
   modelsData: PropTypes.instanceOf(I.Map).isRequired,
   cases: PropTypes.instanceOf(I.List),
   className: PropTypes.string,
+};
+
+CodePlaybackPlayerMultiFile.defaultProps = {
+  cases: null,
+  className: '',
 };
 
 export default CodePlaybackPlayerMultiFile;

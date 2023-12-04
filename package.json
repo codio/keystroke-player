@@ -8,8 +8,7 @@
     "test": "echo \"Error: no test specified\" && exit 1",
     "check": "prettier --check src/**/*.js",
     "format": "prettier --write src/**/*.js",
-    "lint": "eslint --ext src/**/*.js",
-    "lint:write": "eslint --ext src/**/*.js --fix-dry-run",
+    "lint": "eslint \"src/**/*.js\"",
     "prepare": "husky install"
   },
   "devDependencies": {
@@ -28,6 +27,7 @@
     "eslint-plugin-react": "^7.33.2",
     "eslint-plugin-react-hooks": "^4.6.0",
     "html-webpack-plugin": "^5.5.3",
+    "husky": "^8.0.0",
     "install": "^0.13.0",
     "mini-css-extract-plugin": "^2.7.6",
     "monaco-editor-webpack-plugin": "^7.1.0",
@@ -38,8 +38,7 @@
     "style-loader": "^3.3.3",
     "webpack": "^5.89.0",
     "webpack-cli": "^5.1.4",
-    "webpack-dev-server": "^4.15.1",
-    "husky": "^8.0.0"
+    "webpack-dev-server": "^4.15.1"
   },
   "dependencies": {
     "@iconify-icon/react": "^1.0.8",
@@ -49,6 +48,7 @@
     "lodash": "^4.17.21",
     "moment": "^2.29.4",
     "prop-types": "^15.8.1",
+    "rc-slider": "^10.5.0",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
     "react-widgets": "^5.8.4",

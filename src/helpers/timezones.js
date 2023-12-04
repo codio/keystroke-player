@@ -41,7 +41,6 @@ const offsetToHoursString = (offsetMinutes) => {
     const sign = offsetMinutes < 0 ? '-' : '+';
     return `${shortedTimeView(sign + str)}`;
   } catch (e) {
-    console.log('offsetToHoursString error', e);
     return '';
   }
 };
@@ -58,7 +57,6 @@ const getHours = (zoneItem) => {
     return offsetToHoursString(offsetMinutes);
   }
 
-  new Date().getFullYear;
   const filteredRules = _.filter(actualRules, (rule) => {
     const [, to] = rule;
     return to === 'max' || Number(to) >= currentYear;
@@ -97,13 +95,13 @@ const cachedZone = (zone, entry) => {
   const parsed = [];
   _.forEach(entry, (e) => {
     let until = filterFloat(e[3]);
-    if (isNaN(until)) {
+    if (Number.isNaN(until)) {
       until = undefined;
     }
     const offset = -1 * filterFloat(e[0]); // minutes
     const i = {
       offsetMinutes: offset,
-      until: until,
+      until,
       format: `(${getRules(e)})`,
     };
     parsed.push(i);

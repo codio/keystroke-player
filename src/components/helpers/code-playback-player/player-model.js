@@ -5,7 +5,8 @@ import DiffMatchPatch from 'diff-match-patch';
 
 import OtText from './shareman/ot-text';
 
-import CodePlaybackStore from '../../../stores/code-playback-store';
+// import CodePlaybackStore from '../../../stores/code-playback-store';
+const CodePlaybackStore = {};
 
 class FileTimeline {
   static State = I.Record({
@@ -221,7 +222,9 @@ class ChangePlayer {
 
   setSpeed(speed) {
     this.speed = speed;
-    this.fileTimeline && this.fileTimeline.setSpeed(this.speed);
+    if (this.fileTimeline) {
+      this.fileTimeline.setSpeed(this.speed);
+    }
   }
 
   getDataForPosition(position) {

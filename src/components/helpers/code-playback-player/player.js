@@ -91,4 +91,6 @@ CodePlaybackEditor.defaultProps = {
   value: '',
 };
 
+CodePlaybackEditor.displayName = 'CodePlaybackEditor';
+
 export default CodePlaybackEditor;
