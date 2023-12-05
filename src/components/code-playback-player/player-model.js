@@ -196,28 +196,24 @@ class ChangePlayer {
   }
 
   getDataForPosition(position) {
-    return new Promise((resolve) => {
-      position = _.isNumber(position)
-        ? position
-        : this.fileTimeline.currentPosition;
-      const prev = this.fileTimeline.positionInformation(position - 1);
-      const current = this.fileTimeline.moveToPosition(position);
-      const info = this.fileTimeline.positionInformation(position);
-      const { content, decorators, positionInfo } = this._getContentDetails(
-        current,
-        prev
-      );
-      resolve(
-        new ChangePlayer.PositionData({
-          content,
-          decorators,
-          positionInfo,
-          metadata: new ChangePlayer.PositionMetadata({
-            modifiedBy: info.modifiedBy,
-            date: info.modified,
-          }),
-        })
-      );
+    position = _.isNumber(position)
+      ? position
+      : this.fileTimeline.currentPosition;
+    const prev = this.fileTimeline.positionInformation(position - 1);
+    const current = this.fileTimeline.moveToPosition(position);
+    const info = this.fileTimeline.positionInformation(position);
+    const { content, decorators, positionInfo } = this._getContentDetails(
+      current,
+      prev
+    );
+    return new ChangePlayer.PositionData({
+      content,
+      decorators,
+      positionInfo,
+      metadata: new ChangePlayer.PositionMetadata({
+        modifiedBy: info.modifiedBy,
+        date: info.modified,
+      }),
     });
   }
 

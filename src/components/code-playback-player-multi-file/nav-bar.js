@@ -7,7 +7,7 @@ import DropdownList from 'react-widgets/DropdownList';
 import PlainButton from '../plain-button';
 import MDIcon from '../iconify';
 
-import { formatDateFullUS } from '../../../helpers/helpers';
+import { formatDateFullUS } from '../../helpers/helpers';
 
 import { SPEED, SPEED_DATA } from '../code-playback-player/constants';
 import Timeline from './timeline';

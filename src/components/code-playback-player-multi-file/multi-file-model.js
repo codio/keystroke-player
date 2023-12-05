@@ -27,8 +27,8 @@ class MultiFileModel {
     return this.modelCache.get(fileName);
   }
 
-  async getDataForPosition(fileName, version) {
-    const model = await this.loadModel(fileName);
+  getDataForPosition(fileName, version) {
+    const model = this.getModel(fileName);
     return model.getDataForPosition(version);
   }
 

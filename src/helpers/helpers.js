@@ -1,7 +1,12 @@
 import moment from 'moment';
 import dayjs from 'dayjs';
+import dayjsPluginUtc from 'dayjs/plugin/utc';
+import dayjsPluginTz from 'dayjs/plugin/timezone';
 
 import { currentTimezone as cTimezone } from './timezones';
+
+dayjs.extend(dayjsPluginUtc);
+dayjs.extend(dayjsPluginTz);
 
 export const currentTimezone = cTimezone;
 export const shiftDateToTimezone = (date, toTimezone, fromTimezone) => {

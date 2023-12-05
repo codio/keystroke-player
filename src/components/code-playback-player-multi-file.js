@@ -3,7 +3,7 @@ import * as I from 'immutable';
 import _ from 'lodash';
 import PropTypes from 'prop-types';
 
-import useInterval from '../../helpers/use-interval';
+import useInterval from '../helpers/use-interval';
 
 import { SPEED } from './code-playback-player/constants';
 import CodePlaybackEditor from './code-playback-player/player';
@@ -29,32 +29,27 @@ const CodePlaybackPlayerMultiFile = ({ modelsData, cases, className }) => {
     setPositions(calculatedPositions);
   }, [modelsData]);
 
-  const updateContent = async (newStep) => {
+  const updateContent = (newStep) => {
     const { fileName, position } = positions.get(newStep);
-    try {
-      const positionData = await playerModel.getDataForPosition(
-        fileName,
-        position
-      );
-      setValue(positionData.content);
-      setMetadata(positionData.metadata);
-      if (codePaybackEditorRef.current) {
-        _.defer(() => {
-          codePaybackEditorRef.current.clearSelection();
-          const isInternal =
-            positionData.metadata &&
-            positionData.metadata.modifiedBy === 'internal#reload';
-          codePaybackEditorRef.current.deltaDecorations(
-            isInternal ? [] : positionData.decorators.toJS()
-          );
-          if (positionData.positionInfo) {
-            const { position, scroll } = positionData.positionInfo;
-            codePaybackEditorRef.current.setPosition(position.toJS());
-            codePaybackEditorRef.current.smartScrollToPosition(scroll.toJS());
-          }
-        });
-      }
-    } catch {}
+    const positionData = playerModel.getDataForPosition(fileName, position);
+    setValue(positionData.content);
+    setMetadata(positionData.metadata);
+    if (codePaybackEditorRef.current) {
+      _.defer(() => {
+        codePaybackEditorRef.current.clearSelection();
+        const isInternal =
+          positionData.metadata &&
+          positionData.metadata.modifiedBy === 'internal#reload';
+        codePaybackEditorRef.current.deltaDecorations(
+          isInternal ? [] : positionData.decorators.toJS()
+        );
+        if (positionData.positionInfo) {
+          const { position, scroll } = positionData.positionInfo;
+          codePaybackEditorRef.current.setPosition(position.toJS());
+          codePaybackEditorRef.current.smartScrollToPosition(scroll.toJS());
+        }
+      });
+    }
   };
 
   useEffect(() => {

@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 
-import CodePlaybackPlayerMultiFile from './components/helpers/code-playback-player-multi-file';
-import { getModelsDataFromFile } from './components/helpers/code-playback-player/file-data';
+import CodePlaybackPlayerMultiFile from './components/code-playback-player-multi-file';
+import { getModelsDataFromFile } from './components/code-playback-player/file-data';
 
 const KeystrokePlayer = () => {
   const [modelsData, setModelsData] = useState(null);

@@ -3,7 +3,7 @@ import React, { useEffect, useImperativeHandle, useRef } from 'react';
 import { Timeline as VisTimeline } from 'vis-timeline/esnext';
 import PropTypes from 'prop-types';
 
-import { generateId } from '../../../helpers/helpers';
+import { generateId } from '../../helpers/helpers';
 import MDIcon from '../iconify';
 
 const MINUTE_MS = 60 * 1000;
