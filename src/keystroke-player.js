@@ -9,8 +9,10 @@ const KeystrokePlayer = () => {
   const [cases] = useState(null);
 
   const onFileSelected = (e) => {
-    setError(null);
     e.preventDefault();
+    setError(null);
+    setModelsData(null);
+
     const file = e.target.files[0];
     const fr = new FileReader();
     fr.onload = () => {
