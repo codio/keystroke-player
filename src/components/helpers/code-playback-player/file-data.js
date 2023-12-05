@@ -114,9 +114,17 @@ export const getFileStatesFromData = (data) => {
   });
 };
 
-export const getModelsDataFromFile = (data) => {
+const getModelDataFromData = (data) => {
   return new ModelData({
     initialState: getInitialStateFromData(data.initialState),
     states: getFileStatesFromData(data.states),
   });
+};
+
+export const getModelsDataFromFile = (data) => {
+  return I.Map(
+    I.List(
+      Object.keys(data).map((key) => [key, getModelDataFromData(data[key])])
+    )
+  );
 };

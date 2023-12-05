@@ -45,6 +45,7 @@
     "no-param-reassign": ["off"],
     "react/forbid-prop-types": ["off"],
     "no-underscore-dangle": ["off"],
-    "array-bracket-spacing": ["off"]
+    "array-bracket-spacing": ["off"],
+    "object-curly-newline": ["off"]
   }
 }

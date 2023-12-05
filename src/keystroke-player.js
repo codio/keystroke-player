@@ -15,7 +15,8 @@ const KeystrokePlayer = () => {
     const fr = new FileReader();
     fr.onload = () => {
       try {
-        setModelsData(getModelsDataFromFile(JSON.parse(fr.result)));
+        const data = getModelsDataFromFile(JSON.parse(fr.result));
+        setModelsData(data);
       } catch ({ message }) {
         setError(message);
       }

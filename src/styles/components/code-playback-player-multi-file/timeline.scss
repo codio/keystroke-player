@@ -1,0 +1,48 @@
+.CodePlaybackMultiFileNavBar {
+  flex: 0 0 180px;
+}
+
+.timeline {
+  display: flex;
+  position: relative;
+}
+
+.timelineGroupTitle {
+  position: absolute;
+  top: 95px;
+  left: 5px;
+}
+
+.timelineEl {
+  flex: 1 0 auto;
+}
+
+.timelineGroupCopyPaste {
+  .vis-item {
+    background-color: $code-playback-insert;
+    border-color: darken($code-playback-insert, 60%);
+  }
+}
+
+.timelineControls {
+  margin-left: 5px;
+}
+
+.plainButton.timelineControlButton {
+  padding: 6px;
+  font-size: $fontSize-base;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  transition: all .3s linear;
+  width: 80px;
+  border-radius: 2px;
+
+  iconify-icon {
+    font-size: $fontSize-30px;
+  }
+
+  &:hover {
+    background-color: $color-grayLighter;
+  }
+}

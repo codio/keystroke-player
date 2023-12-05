@@ -1,4 +1,4 @@
-import React, { useImperativeHandle, useRef, useState } from 'react';
+import React, { useEffect, useImperativeHandle, useRef, useState } from 'react';
 import PropTypes from 'prop-types';
 import MonacoEditor, { monaco } from 'react-monaco-editor';
 import _ from 'lodash';
@@ -20,6 +20,19 @@ const MIN_VISIBLE_LINES = 3;
 const CodePlaybackEditor = React.forwardRef((props, ref) => {
   const monacoRef = useRef(null);
   const [currentDecorations, setCurrentDecorations] = useState([]);
+  const onResize = () => {
+    monacoRef.current?.editor?.layout();
+  };
+  const onResizeThrottled = _.throttle(() => onResize(), 500);
+  useEffect(() => {
+    let observer = new ResizeObserver(onResizeThrottled);
+    observer.observe(document.body);
+    return () => {
+      onResizeThrottled?.cancel();
+      observer?.disconnect();
+      observer = null;
+    };
+  }, []);
   useImperativeHandle(ref, () => ({
     deltaDecorations: (data) => {
       if (monacoRef.current) {

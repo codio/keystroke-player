@@ -1,0 +1,67 @@
+.codePlaybackTimeline {
+  display: flex;
+  flex-direction: column;
+}
+
+.codePlaybackTimeline-navBar {
+  display: flex;
+  align-items: center;
+  flex: 1 0 auto;
+}
+
+.codePlaybackTimeline-playback-controls {
+  font-size: $fontSize-large;
+}
+
+.plainButton.codePlaybackTimeline-button {
+  padding: 6px;
+  border-radius: 2px;
+
+  &:hover {
+    background-color: $color-grayLighter;
+  }
+}
+
+.codePlaybackTimeline-metadata {
+  display: flex;
+  flex-direction: column;
+  flex: 1 0 auto;
+  margin: 0 20px;
+}
+
+.codePlaybackTimeline-speed-container {
+  display: flex;
+  align-items: center;
+}
+
+.codePlaybackTimeline-speed {
+  margin-left: 5px;
+}
+
+.codePlaybackTimeline {
+  .rc-slider-track {
+    background-color: $color-action;
+  }
+
+  .rc-slider-mark {
+    display: none;
+  }
+
+  .rc-slider-dot-active {
+    border-color: $color-action;
+  }
+
+  .rc-slider-dot,
+  .rc-slider-dot-active {
+    outline: 2px solid $color-white;
+  }
+
+  .rc-slider-handle {
+    border-color: $color-action;
+  }
+
+  .rc-slider-handle.rc-slider-handle-dragging {
+    border-color: $color-action;
+    box-shadow: 0 0 0 5px $color-action-active;
+  }
+}

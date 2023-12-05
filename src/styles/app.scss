@@ -1,0 +1,20 @@
+@import 'rc-slider/assets/index.css';
+@import 'vis-timeline/dist/vis-timeline-graph2d.css';
+
+@import './variables';
+
+@import './react-widgets';
+
+@import './components/plain-button';
+@import './components/code-playback-player';
+@import './components/code-playback-player-multi-file';
+
+@import './keystroke-player';
+
+html,
+body,
+.root {
+  height: 100%;
+}
+
+

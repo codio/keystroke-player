@@ -10,7 +10,10 @@ class MultiFileModel {
   }
 
   getAllModels() {
-    return this.modelsData.keySeq().map((fileName) => this.getModel(fileName));
+    return this.modelsData
+      .keySeq()
+      .map((fileName) => this.getModel(fileName))
+      .toList();
   }
 
   getModel(fileName) {

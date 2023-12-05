@@ -169,8 +169,9 @@ class ChangePlayer {
   }
 
   init() {
-    const { initialState, state } = this.modelData;
-    this.metadataState = initialState;
+    const { initialState, states } = this.modelData;
+    // set step to 10000 because all data will be loaded immediately
+    this.metadataState = initialState.set('step', 10000);
     this.fileTimeline = new FileTimeline(
       this.metadataState.startVersion,
       this.metadataState.endVersion,
@@ -179,7 +180,7 @@ class ChangePlayer {
       this.speed
     );
 
-    this._onLoadFileStateComplete(state, 0);
+    this._onLoadFileStateComplete(states, 0);
 
     return new ChangePlayer.InitialStateInfo({
       min: this.fileTimeline.startPosition,

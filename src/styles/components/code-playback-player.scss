@@ -1,0 +1,19 @@
+@import './code-playback-player/timeline';
+@import './code-playback-player/editor';
+
+.codePlaybackPlayer .codePlaybackTimeline {
+  margin-top: 10px;
+}
+
+.codePlaybackPlayer {
+  height: 500px;
+  display: flex;
+  flex-direction: column;
+}
+
+.codePlaybackPlayer-fileName {
+  font-size: $fontSize-large;
+  text-decoration: underline;
+  font-weight: 600;
+  margin: 0 0 6px 10px;
+}
