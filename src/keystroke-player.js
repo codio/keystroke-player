@@ -26,24 +26,40 @@ const KeystrokePlayer = () => {
     fr.readAsText(e.target.files[0]);
   };
 
-  if (!modelsData) {
+  const getFileBar = () => {
     const message = error
       ? `Error occurred(${error}). Please try to load another file.`
-      : 'Please models data file';
+      : 'Select a file with data';
     return (
-      <div className="keystrokePlayer-loading">
-        {message}&nbsp;
+      <div className="keystrokePlayer-fileBar">
+        <div className="keystrokePlayer-fileBar-message">{message}</div>
         <input type="file" onChange={onFileSelected} />
       </div>
     );
-  }
+  };
+
+  const getPlayer = () => {
+    if (!modelsData) {
+      return null;
+    }
+    return (
+      <CodePlaybackPlayerMultiFile
+        className="keystrokePlayer-code-playback"
+        cases={cases}
+        modelsData={modelsData}
+      />
+    );
+  };
 
   return (
-    <CodePlaybackPlayerMultiFile
-      className="keystrokePlayer-code-playback"
-      cases={cases}
-      modelsData={modelsData}
-    />
+    <div
+      className={`keystrokePlayer ${
+        !modelsData ? 'keystrokePlayer-code-playback--empty' : ''
+      }`}
+    >
+      {getFileBar()}
+      {getPlayer()}
+    </div>
   );
 };
 

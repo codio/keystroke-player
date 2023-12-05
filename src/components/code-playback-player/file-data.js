@@ -100,7 +100,7 @@ const getChangeLogFromData = (data) => {
   }
   return new ChangeLog({
     version: data.version,
-    changes: I.List(data.changesList).map(getTextChangesFromData),
+    changes: I.List(data.changes).map(getTextChangesFromData),
     // bug on server side - getModified().getSeconds() = time in milliseconds
     modified: new Date(data.modified / 1000),
     modifiedBy: data.modifiedBy,
