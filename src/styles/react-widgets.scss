@@ -1,0 +1,55 @@
+@use 'react-widgets/scss/styles' with (
+  $components: (
+    'DropdownList'
+  )
+);
+
+.rw-widget {
+  &.rw-state-focus {
+    color: inherit;
+  }
+
+  &.rw-state-focus,
+  &.rw-state-focus:hover {
+    .rw-widget-picker{
+      box-shadow: none;
+      border-color: $color-action;
+    }
+  }
+}
+
+.rw-widget, .rw-dropdownlist-search, .rw-widget-input, .rw-multiselect-input {
+  outline: none !important;
+}
+
+.rw-widget-picker {
+  border-color: $color-grayLight;
+  border-radius: $baseBorderRadius;
+  &:hover {
+    background-color: $color-grayLighter;
+  }
+  min-height: 32px;
+  cursor: pointer;
+}
+
+.rw-popup {
+  .rw-state-selected {
+    background-color: $color-action;
+    color: $color-white;
+  }
+}
+
+//.rw-dropdown-list {
+//  .rw-picker-caret {
+//    &:before {
+//      margin-top: 4px;
+//      color: $color-gray;
+//      @include ss-pika-mixin();
+//      content: 'directdown';
+//    }
+//    svg {
+//      display: none;
+//    }
+//  }
+//}
+

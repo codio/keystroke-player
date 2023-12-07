@@ -1,0 +1,15 @@
+.codePlaybackEditor {
+  flex: 1 1 auto;
+  border: 1px solid $color-grayLighter;
+  overflow: auto;
+}
+
+.codePlaybackEditor .monaco-editor {
+  .codePlaybackRemove {
+    background-color: $code-playback-remove;
+    text-decoration: line-through;
+  }
+  .codePlaybackInsert {
+    background-color: $code-playback-insert;
+  }
+}

@@ -1,0 +1,33 @@
+.keystrokePlayer {
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+}
+
+.keystrokePlayer-code-playback--empty {
+  justify-content: center;
+}
+
+.keystrokePlayer-fileBar {
+  display: flex;
+  border: 2px dashed $color-gray;
+  background-color: $color-grayLighter;
+  align-items: center;
+  justify-content: center;
+  padding: 10px;
+}
+
+.keystrokePlayer-fileBar-message {
+  padding-right: 20px;
+  max-height: 20px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.keystrokePlayer-code-playback.codePlaybackPlayer {
+  padding-top: 5px;
+  height: calc(100vh - 55px);
+  flex: 1 1 auto;
+  overflow: auto;
+}
