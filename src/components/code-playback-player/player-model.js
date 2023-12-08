@@ -138,12 +138,12 @@ class ChangePlayer {
   }
 
   _onLoadFileStateComplete(fileState, offset) {
-    const { logs, snapshotInfo } = fileState;
+    const { logs } = fileState;
     const { step } = this.metadataState;
     const sortedLogs = logs.sortBy((log) => log.version);
-    let currentSnapshotStr = snapshotInfo.content;
+    let currentSnapshotStr = this.metadataState.startContent;
     const timeline = new Array(step + 1);
-    for (let i = sortedLogs.size - 1; i >= 0; i--) {
+    for (let i = 0; i < sortedLogs.size; i++) {
       const log = sortedLogs.get(i);
       if (!log) {
         break;
@@ -172,6 +172,7 @@ class ChangePlayer {
     const { initialState, states } = this.modelData;
     // set step to 10000 because all data will be loaded immediately
     this.metadataState = initialState.set('step', 10000);
+
     this.fileTimeline = new FileTimeline(
       this.metadataState.startVersion,
       this.metadataState.endVersion,
@@ -179,7 +180,6 @@ class ChangePlayer {
       this.metadataState.startContent,
       this.speed
     );
-
     this._onLoadFileStateComplete(states, 0);
 
     return new ChangePlayer.InitialStateInfo({

@@ -1,4 +1,6 @@
 import * as I from 'immutable';
+import { parse } from 'csv-parse/browser/esm/sync';
+import _ from 'lodash';
 
 const InitialState = I.Record({
   startVersion: 0,
@@ -127,4 +129,69 @@ export const getModelsDataFromFile = (data) => {
       Object.keys(data).map((key) => [key, getModelDataFromData(data[key])])
     )
   );
+};
+
+function getTime(date) {
+  return new Date(date).getTime() * 1000;
+}
+
+export const getModelsDataFromCSVFile = (data) => {
+  const lines = parse(data, {
+    delimiter: ',',
+    columns: true,
+    skip_empty_lines: true,
+  });
+  if (lines.length < 1) {
+    throw new Error('no data in file');
+  }
+
+  const initialState = {
+    endVersion: parseInt(lines[lines.length - 1].version, 10),
+    startVersion: 0,
+    startContent: '',
+    step: 200000,
+  };
+  const logs = [];
+  const result = {
+    filename: {
+      initialState,
+      states: {
+        logs,
+        snapshotInfo: {
+          content: '',
+          modified: getTime(lines[0].date),
+          version: 0,
+        }
+      }
+    }
+  };
+
+  const changes = _.groupBy(lines, 'version');
+  for (const [version, change] of Object.entries(changes)) {
+    const ops = [];
+    const logOp = {
+      version: parseInt(version, 10),
+      modified: getTime(change[0].date),
+      modifiedBy: change[0].user,
+      changes: ops,
+    };
+
+    for (const op of change) {
+      if (op.insert.length > 0 || op.delete.length > 0) {
+        ops.push({
+          insert: op.insert ? {
+            position: parseInt(op.position, 10),
+            insert: op.insert
+          } : null,
+          delete: op.delete ? {
+            position: parseInt(op.position, 10),
+            delete: parseInt(op.delete, 10)
+          } : null
+        });
+      }
+    }
+
+    logs.push(logOp);
+  }
+  return getModelsDataFromFile(result);
 };
