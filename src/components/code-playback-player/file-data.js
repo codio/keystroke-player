@@ -177,7 +177,7 @@ export const getModelsDataFromCSVFile = (data) => {
     };
 
     for (const op of change) {
-      if (op.insert || !op.delete) {
+      if (op.insert.length > 0 || op.delete.length > 0) {
         ops.push({
           insert: op.insert ? {
             position: parseInt(op.position, 10),
