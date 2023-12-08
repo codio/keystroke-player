@@ -17,7 +17,7 @@ const KeystrokePlayer = () => {
     const fr = new FileReader();
     fr.onload = () => {
       try {
-        let data = null
+        let data = null;
         if (file.name.indexOf('.json') !== -1) {
           data = getModelsDataFromFile(JSON.parse(fr.result));
         } else if (file.name.indexOf('.csv') !== -1) {

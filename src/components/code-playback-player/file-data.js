@@ -1,5 +1,6 @@
 import * as I from 'immutable';
 import { parse } from 'csv-parse/browser/esm/sync';
+import _ from 'lodash';
 
 const InitialState = I.Record({
   startVersion: 0,
@@ -130,9 +131,8 @@ export const getModelsDataFromFile = (data) => {
   );
 };
 
-
 function getTime(date) {
-  return new Date(date).getTime() * 1000
+  return new Date(date).getTime() * 1000;
 }
 
 export const getModelsDataFromCSVFile = (data) => {
@@ -149,50 +149,49 @@ export const getModelsDataFromCSVFile = (data) => {
     endVersion: parseInt(lines[lines.length - 1].version, 10),
     startVersion: 0,
     startContent: '',
-    step: 200000
-  }
-  const logs = []
+    step: 200000,
+  };
+  const logs = [];
   const result = {
     filename: {
-      initialState: initialState,
+      initialState,
       states: {
         logs,
         snapshotInfo: {
-          content: "",
+          content: '',
           modified: getTime(lines[0].date),
-          version: 0
+          version: 0,
         }
       }
     }
-  }
+  };
 
-  const changes = _.groupBy(lines, "version")
-  for (const [version, change] of  Object.entries(changes)) {
-    const ops = []
+  const changes = _.groupBy(lines, 'version');
+  for (const [version, change] of Object.entries(changes)) {
+    const ops = [];
     const logOp = {
       version: parseInt(version, 10),
       modified: getTime(change[0].date),
       modifiedBy: change[0].user,
       changes: ops,
-    }
+    };
 
     for (const op of change) {
-      if (!op.insert && !op.delete ) {
-        continue
+      if (op.insert || !op.delete) {
+        ops.push({
+          insert: op.insert ? {
+            position: parseInt(op.position, 10),
+            insert: op.insert
+          } : null,
+          delete: op.delete ? {
+            position: parseInt(op.position, 10),
+            delete: parseInt(op.delete, 10)
+          } : null
+        });
       }
-      ops.push({
-        insert: op.insert ? {
-          position: parseInt(op.position, 10),
-          insert: op.insert
-        } : null,
-        delete: op.delete ? {
-          position: parseInt(op.position, 10),
-          delete: parseInt(op.delete, 10)
-        } : null
-      })
     }
 
-    logs.push(logOp)
+    logs.push(logOp);
   }
   return getModelsDataFromFile(result);
-}
+};

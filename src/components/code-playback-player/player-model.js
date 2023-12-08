@@ -143,7 +143,7 @@ class ChangePlayer {
     const sortedLogs = logs.sortBy((log) => log.version);
     let currentSnapshotStr = this.metadataState.startContent;
     const timeline = new Array(step + 1);
-    for (let i = 0; i < sortedLogs.size ; i++) {
+    for (let i = 0; i < sortedLogs.size; i++) {
       const log = sortedLogs.get(i);
       if (!log) {
         break;
