@@ -10,6 +10,7 @@
     "plugin:import/errors",
     "plugin:import/warnings"
   ],
+
   "parserOptions": {
     "ecmaFeatures": {
       "jsx": true
@@ -46,6 +47,13 @@
     "react/forbid-prop-types": ["off"],
     "no-underscore-dangle": ["off"],
     "array-bracket-spacing": ["off"],
-    "object-curly-newline": ["off"]
+    "object-curly-newline": ["off"],
+    "import/no-unresolved": [
+      "error",
+      {
+        "ignore": ["^csv-parse/.+"]
+      }
+    ],
+    "no-restricted-syntax": 0
   }
 }
