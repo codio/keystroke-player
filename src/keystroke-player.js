@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 
 import CodePlaybackPlayerMultiFile from './components/code-playback-player-multi-file';
-import { getModelsDataFromFile } from './components/code-playback-player/file-data';
+import { getModelsDataFromFile, getModelsDataFromCSVFile } from './components/code-playback-player/file-data';
 
 const KeystrokePlayer = () => {
   const [modelsData, setModelsData] = useState(null);
@@ -17,7 +17,15 @@ const KeystrokePlayer = () => {
     const fr = new FileReader();
     fr.onload = () => {
       try {
-        const data = getModelsDataFromFile(JSON.parse(fr.result));
+        let data = null
+        if (file.name.indexOf('.json') !== -1) {
+          data = getModelsDataFromFile(JSON.parse(fr.result));
+        } else if (file.name.indexOf('.csv') !== -1) {
+          data = getModelsDataFromCSVFile(fr.result);
+        }
+        if (!data) {
+          throw new Error('Wrong file format');
+        }
         setModelsData(data);
       } catch ({ message }) {
         setError(message);
